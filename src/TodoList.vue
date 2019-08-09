@@ -4,7 +4,7 @@
     <input v-model="val"/>
     <br/>
     <el-button @click="insertItem">submit</el-button>
-    <el-button @click="searchItem">search</el-button>
+    <el-button @click="searchItem">测试</el-button>
   </div>
     <ul>
       <TodoListItem
@@ -16,19 +16,29 @@
         @delete="deleteItem"
       />
     </ul>
+    <ul>
+      <TodoListItem
+        v-for="(item,index) of  userList"
+        :key="index"
+        :content="item.name"
+        :index="index"
+        @delete="deleteItem"
+      />
+    </ul>
     <div v-show="!itemBoolean">{{ list[index] }}</div>
   </div>
 </template>
 
 <script>
 import TodoListItem from './components/TodoListItem'
-import {getLineInfo} from './api/test'
+import {getAllUser} from './api/test'
 export default {
   name: 'TodoList',
   data () {
     return {
       val: '',
       list: [],
+      userList: [],
       itemBoolean: true,
       index: 0
     }
@@ -40,13 +50,6 @@ export default {
       }
       this.list.push(this.val)
       this.val = ''
-      this.$axios
-        .get('/main/getLineInfo')
-        .then(successResponse => {
-          this.responseResult = JSON.stringify(successResponse.data)
-        })
-        .catch(failResponse => {
-        })
     },
     deleteItem: function (index) {
       this.list.splice(index, 1)
@@ -54,8 +57,9 @@ export default {
     searchItem: function () {
       this.index = this.val
       this.itemBoolean = !this.itemBoolean
-      getLineInfo().then(response => {
+      getAllUser().then(response => {
         debugger
+        this.userList = response.data
       })
     }
   },

@@ -1,9 +1,8 @@
 import request from '@/util/request'
 
-export function getLineInfo (query) {
+export function getAllUser () {
   return request({
-    url: '/main/getLineInfo',
-    method: 'GET',
-    params: query
+    url: '/User/getAllUser',
+    method: 'GET'
   })
 }
